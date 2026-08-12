@@ -41,21 +41,25 @@ struct AddBookView: View {
                 Section("Write a review") {
                     TextEditor(text: $review)
                     
-                    Picker("Rating", selection: $rating) {
-                        ForEach(0..<6) {
-                            Text(String("\($0)"))
-                        }
-                    }
+                    //Picker("Rating", selection: $rating) {
+                    //    ForEach(0..<6) {
+                    //        Text(String("\($0)"))
+                    //    }
+                    // Replaced this picker with a call to
+                    // the RatingView
+                    // Our RatingView is MUCH easier for
+                    // the user
+                    RatingView(rating: $rating)
                 }
-                Section {
-                    Button("Save") {
-                        let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
-                        // Insert to modelContext to save it
-                        modelContext.insert(newBook)
-                        dismiss()
-                    }
+            Section {
+                Button("Save") {
+                    let newBook = Book(title: title, author: author, genre: genre, review: review, rating: rating)
+                    // Insert to modelContext to save it
+                    modelContext.insert(newBook)
+                    dismiss()
                 }
             }
+        }
             .navigationTitle("Add Book")
         }
         

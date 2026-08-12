@@ -4,6 +4,8 @@
 //
 //  Created by Myron Snelson on 8/10/26.
 //
+// Creating books with SwiftData
+// Adding a custom star rating component
 
 import SwiftData // added
 import SwiftUI
