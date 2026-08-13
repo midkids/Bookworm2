@@ -6,6 +6,7 @@
 //
 // Creating books with SwiftData
 // Adding a custom star rating component
+// Building a list with @Query
 
 import SwiftData // added
 import SwiftUI
@@ -19,23 +20,41 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack{
-            Text("Count is \(books.count)")
-                .navigationTitle("Bookworm")
-                .toolbar{
-                    // Make button to ToolBarItem to enable
-                    // placing it to the far right in preparation
-                    // for another button on the far left
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button("Add Book", systemImage: "plus") {
-                            showingAddScreen.toggle()
+            // Text("Count is \(books.count)")
+            List {
+                ForEach(books) {book in
+                    NavigationLink(value: book) {
+                        HStack {
+                            EmojiRatingView(rating: book.rating)
+                                .font(.largeTitle)
+                            VStack(alignment: .leading) {
+                                Text(book.title)
+                                    .font(.headline)
+                                Text(book.author)
+                                    .foregroundStyle(.secondary)
+                            }
                         }
                     }
+                    
                 }
-                .sheet(isPresented: $showingAddScreen) {
-                    AddBookView()
+                
+            }
+            .navigationTitle("Bookworm")
+            .toolbar{
+                // Make button to ToolBarItem to enable
+                // placing it to the far right in preparation
+                // for another button on the far left
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Add Book", systemImage: "plus") {
+                        showingAddScreen.toggle()
+                    }
                 }
+            }
+            .sheet(isPresented: $showingAddScreen) {
+                AddBookView()
+            }
         }
-    
+        
     }
 }
 
