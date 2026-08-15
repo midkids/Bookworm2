@@ -7,6 +7,7 @@
 // Creating books with SwiftData
 // Adding a custom star rating component
 // Building a list with @Query
+// Showing book details
 
 import SwiftData // added
 import SwiftUI
@@ -40,6 +41,9 @@ struct ContentView: View {
                 
             }
             .navigationTitle("Bookworm")
+            .navigationDestination(for: Book.self) {
+                book in DetailView(book: book)
+            }
             .toolbar{
                 // Make button to ToolBarItem to enable
                 // placing it to the far right in preparation
