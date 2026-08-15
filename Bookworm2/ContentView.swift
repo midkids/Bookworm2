@@ -21,6 +21,8 @@ struct ContentView: View {
     
     var body: some View {
         NavigationStack{
+            // This count is just a placeholder until
+            // we create our DetailView
             // Text("Count is \(books.count)")
             List {
                 ForEach(books) {book in
