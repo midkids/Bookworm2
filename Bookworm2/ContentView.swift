@@ -8,6 +8,7 @@
 // Adding a custom star rating component
 // Building a list with @Query
 // Showing book details
+// Sorting SwiftData queries using SortDescriptor
 
 import SwiftData // added
 import SwiftUI
@@ -15,7 +16,25 @@ import SwiftUI
 struct ContentView: View {
     @Environment(\.modelContext) var modelContext
     
-    @Query var books: [Book]
+    // When you use Query to pull data out of
+    // SwiftData, you can sort it
+    // IMPORTANT: Choose some logical order
+    // to provide the user a predictable experience
+    // by having a predictable sort order
+    // every time they use the app
+    // Query has two options: 1) simple with only
+    // one sort field, and 2) an advance option
+    // that allows an array of a new type called
+    // assort
+    
+    // 1) Simple versions
+    // @Query(sort: \Book.title) var books: [Book]
+    // @Query(sort: \Book.rating, order: .reverse) var books: [Book]
+    
+    // 2) Advanced version
+    @Query(sort: [SortDescriptor(\Book.title),
+                  SortDescriptor(\Book.author)
+    ]) var books: [Book]
     
     @State private var showingAddScreen = false
     
