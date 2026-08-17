@@ -9,6 +9,7 @@
 // Building a list with @Query
 // Showing book details
 // Sorting SwiftData queries using SortDescriptor
+// Deleting from a SwiftData query
 
 import SwiftData // added
 import SwiftUI
@@ -59,13 +60,25 @@ struct ContentView: View {
                     }
                     
                 }
-                
+                // This will enable us to swipe delete books
+                // from the list
+                .onDelete(perform: deleteBooks)
             }
             .navigationTitle("Bookworm")
             .navigationDestination(for: Book.self) {
                 book in DetailView(book: book)
             }
             .toolbar{
+                // This edit button will toggle our list
+                // between editing and not editing mode
+                // When pressed, this button will show a
+                // delete button for each book in the list
+                // The user must press the new delete button
+                // and then confirm the delete with the swipe
+                // to delete button
+                ToolbarItem(placement: .topBarLeading) {
+                    EditButton()
+                }
                 // Make button to ToolBarItem to enable
                 // placing it to the far right in preparation
                 // for another button on the far left
@@ -79,7 +92,18 @@ struct ContentView: View {
                 AddBookView()
             }
         }
-        
+    }
+    
+    func deleteBooks(at offsets: IndexSet) {
+        // Loop over all the books we have been
+        // asked to delete
+        for offset in offsets {
+            // Find each book in our query result
+            // array
+            let book = books[offset]
+            // Delete book
+            modelContext.delete(book)
+        }
     }
 }
 
