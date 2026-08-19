@@ -9,6 +9,14 @@ import SwiftData // added
 import SwiftUI
 
 struct DetailView: View {
+    // Adding these three varibles to enable user to
+    // delete a book from the DetailView and
+    // have the app programatically return to the
+    // home screen
+    @Environment(\.modelContext) var modelContext
+    @Environment(\.dismiss) var dismiss
+    @State private var showingDeleteAlert = false
+    
     let book: Book
     
     // We must use some type of scroll view in
@@ -46,6 +54,24 @@ struct DetailView: View {
         .navigationTitle(book.title)
         .navigationBarTitleDisplayMode(.inline)
         .scrollBounceBehavior(.basedOnSize)
+        .alert("Delete Book", isPresented: $showingDeleteAlert) {
+            Button("Delete", role: .destructive, action: deleteBook)
+            Button("Cancel", role: .cancel, ) { }
+        } message: {
+            Text("Are you sure?")
+        }
+        .toolbar {
+            Button("Delete this book", systemImage: "trash") {
+                showingDeleteAlert = true
+            }
+        }
+    }
+    
+    // Deletes current book and dismisses
+    // DetailView (return to ContentView)
+    func deleteBook() {
+        modelContext.delete(book)
+        dismiss()
     }
 }
 
